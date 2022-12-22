@@ -3,23 +3,27 @@ import ListView from '../view/list-view.js';
 import SortView from '../view/sort-view.js';
 import EventView from '../view/event-view.js';
 import NewPointView from '../view/new-point-view.js';
-import EditPointView from '../view/edit-point-view.js';
+// import EditPointView from '../view/edit-point-view.js';
+import {offersByTypes, destinations} from '../mock/task.js';
 
 export default class ListPresenter {
-  listComponent = new ListView();
+  component = new ListView();
 
-  constructor({listContainer}) {
-    this.listContainer = listContainer;
+  constructor({container, pointModel}) {
+    this.container = container;
+    this.pointModel = pointModel;
   }
 
   init() {
-    render(this.listComponent, this.listContainer);
-    render(new SortView(), this.listComponent.getElement(), RenderPosition.BEFOREBEGIN);
-    render(new EditPointView(), this.listComponent.getElement(), RenderPosition.AFTERBEGIN);
-    render(new NewPointView(), this.listComponent.getElement(), RenderPosition.BEFOREEND);
+    this.listPoint = [...this.pointModel.tasks];
 
-    for (let i = 0; i < 3; i++) {
-      render(new EventView(), this.listComponent.getElement(), RenderPosition.BEFOREEND);
+    render(this.component, this.container);
+    render(new SortView(), this.component.element, RenderPosition.BEFOREBEGIN);
+    // render(new EditPointView(), this.component.getElement(), RenderPosition.AFTERBEGIN);
+    render(new NewPointView({point: this.listPoint[0], offersByTypes}), this.component.element, RenderPosition.BEFOREEND);
+
+    for (let i = 0; i < this.listPoint.length; i++) {
+      render(new EventView({point: this.listPoint[i], offersByTypes, destinations}), this.component.element, RenderPosition.BEFOREEND);
     }
   }
 

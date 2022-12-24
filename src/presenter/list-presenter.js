@@ -74,7 +74,6 @@ export default class ListPresenter {
       return;
     }
 
-    // // render(new EditPointView(), this.component.getElement(), RenderPosition.AFTERBEGIN);
     // // render(new NewPointView({point: this.#listPoint[0], offersByTypes}), this.#component.element, RenderPosition.BEFOREEND);
     render(new SortView(), this.#component.element, RenderPosition.BEFOREBEGIN);
     for (let i = 0; i < this.#listPoint.length; i++) {

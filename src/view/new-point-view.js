@@ -5,22 +5,7 @@ const POINT = {
   basePrice: 3000,
   dateFrom: '2019-07-10T22:55:56.845Z',
   dateTo: '2019-07-11T11:22:13.375Z',
-  destination: {
-    id: 1,
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-    name: 'Amsterdam',
-    pictures: [
-      {
-        src: 'https://loremflickr.com/248/152?random=1',
-        description: 'Nunc fermentum tortor ac porta dapibus'
-      },
-      {
-        src: 'https://loremflickr.com/248/152?random=2',
-        description: 'Aliquam id orci ut lectus varius viverra'
-      }
-    ],
-
-  },
+  destination: 3,
   id: 3,
   offers: [1,3],
   type: 'taxi'
@@ -42,13 +27,14 @@ const creatOptionsTemplate = (offers, pointTypeOffers) =>
 
 const createPicturesTemplate = (pictures) => pictures.map((picture) => `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`).join('');
 
-function createNewPointTemplate(point,offersByTypes) {
+const createNewPointTemplate = (point, offersByTypes, destinations) => {
   const {basePrice, dateFrom, dateTo, destination, type, offers} = point;
   const pointDateTo = fullDateTo(dateTo);
   const pointDateFrom = fullDateFrom(dateFrom);
   const pointTypeOffers = offersByTypes.find((offer) => offer.type === point.type);
   const optionsTemplate = creatOptionsTemplate(offers, pointTypeOffers);
-  const picturesTemplate = createPicturesTemplate(destination.pictures);
+  const pointNewDestination = destinations.find((direction) => direction.id === destination);
+  const picturesTemplate = createPicturesTemplate(pointNewDestination.pictures);
 
   return (
     `<li class="trip-events__item">
@@ -106,7 +92,7 @@ function createNewPointTemplate(point,offersByTypes) {
               <label class="event__label  event__type-output" for="event-destination-1">
                 ${type}
               </label>
-              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-1">
+              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${pointNewDestination.name}" list="destination-list-1">
               <datalist id="destination-list-1">
                 <option value="Amsterdam"></option>
                 <option value="Geneva"></option>
@@ -139,7 +125,7 @@ function createNewPointTemplate(point,offersByTypes) {
             </section>
             <section class="event__section  event__section--destination">
               <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-              <p class="event__destination-description">${destination.description}</p>
+              <p class="event__destination-description">${pointNewDestination.description}</p>
               <div class="event__photos-container">
                 <div class="event__photos-tape">
                 ${picturesTemplate}
@@ -150,18 +136,22 @@ function createNewPointTemplate(point,offersByTypes) {
         </form>
       </li>`
   );
-}
+};
 
 export default class NewPointView {
   #element = null;
+  #point = null;
+  #offersByTypes = null;
+  #destinations = null;
 
-  constructor({task = POINT, offersByTypes}) {
-    this.task = task;
-    this.offersByTypes = offersByTypes;
+  constructor({point = POINT, offersByTypes, destinations}) {
+    this.#point = point;
+    this.#offersByTypes = offersByTypes;
+    this.#destinations = destinations;
   }
 
   get template() {
-    return createNewPointTemplate(this.task, this.offersByTypes);
+    return createNewPointTemplate(this.#point, this.#offersByTypes, this.#destinations);
   }
 
   get element() {

@@ -1,5 +1,5 @@
-import {createElement} from '../render.js';
-import {fullDateFrom, fullDateTo} from '../utils.js';
+import {fullDateFrom, fullDateTo} from '../utils/task.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const POINT = {
   basePrice: 3000,
@@ -138,13 +138,13 @@ const createNewPointTemplate = (point, offersByTypes, destinations) => {
   );
 };
 
-export default class NewPointView {
-  #element = null;
+export default class NewPointView extends AbstractView {
   #point = null;
   #offersByTypes = null;
   #destinations = null;
 
   constructor({point = POINT, offersByTypes, destinations}) {
+    super();
     this.#point = point;
     this.#offersByTypes = offersByTypes;
     this.#destinations = destinations;
@@ -152,17 +152,5 @@ export default class NewPointView {
 
   get template() {
     return createNewPointTemplate(this.#point, this.#offersByTypes, this.#destinations);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

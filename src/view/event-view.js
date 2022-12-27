@@ -1,5 +1,5 @@
-import {createElement} from '../render.js';
-import {dayDate, dateTimeFrom, dateTimeTo} from '../utils.js';
+import AbstractView from '../framework/view/abstract-view.js';
+import {dayDate, dateTimeFrom, dateTimeTo} from '../utils/task.js';
 
 const creatSelectOffersTemplate = (offers, pointTypeOffers) =>
   pointTypeOffers.offers.map((offer) =>
@@ -47,31 +47,29 @@ const createEventTemplate = (point, offersByTypes, destinations) => {
   );
 };
 
-export default class EventView {
+export default class EventView extends AbstractView {
   #point = null;
-  #element = null;
   #offersByTypes = null;
   #destinations = null;
+  #handleEditClick = null;
 
-  constructor({point, offersByTypes, destinations}) {
+  constructor({point, offersByTypes, destinations, onEditClick}) {
+    super();
     this.#point = point;
     this.#offersByTypes = offersByTypes;
     this.#destinations = destinations;
+    this.#handleEditClick = onEditClick;
+
+    this.element.querySelector('.event__rollup-btn')
+      .addEventListener('click', this.#editClickHandler);
   }
 
   get template() {
     return createEventTemplate(this.#point, this.#offersByTypes, this.#destinations);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
-  }
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleEditClick();
+  };
 }

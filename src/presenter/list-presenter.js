@@ -1,4 +1,4 @@
-import {render, RenderPosition} from '../render.js';
+import {render, RenderPosition} from '../framework/render.js';
 import ListView from '../view/list-view.js';
 import SortView from '../view/sort-view.js';
 import EventView from '../view/event-view.js';
@@ -25,42 +25,58 @@ export default class ListPresenter {
   }
 
   #renderPoint(point) {
-    const pointComponent = new EventView({point, offersByTypes, destinations});
-    const pointEditComponent = new EditPointView ({point, offersByTypes, destinations});
 
-    const replacePoinToForm = () => {
-      this.#component.element.replaceChild(pointEditComponent.element, pointComponent.element);
-    };
-
-    const replaceFormToPoint = () => {
-      this.#component.element.replaceChild(pointComponent.element, pointEditComponent.element);
-    };
-
-    const onPointCloseClick = (evt) => {
-      evt.preventDefault();
-      replaceFormToPoint();
-    };
+    // const onPointCloseClick = (evt) => {
+    //   evt.preventDefault();
+    //   replaceFormToPoint();
+    // };
 
     const escKeyDownHandler = (evt) => {
       if(evt.key === 'Escape' || evt.key === 'Esc') {
         evt.preventDefault();
-        replaceFormToPoint();
+        replaceFormToPoint.call(this);
         document.removeEventListener('keydown', escKeyDownHandler);
       }
     };
 
-    pointComponent.element.querySelector('.event__rollup-btn').addEventListener('click', () => {
-      replacePoinToForm();
-      document.addEventListener('keydown', escKeyDownHandler);
+    const pointComponent = new EventView({
+      point,
+      offersByTypes,
+      destinations,
+      onEditClick: () => {
+        replacePoinToForm.call(this);
+        document.addEventListener('keydown', escKeyDownHandler);
+      }
     });
 
-    pointEditComponent.element.querySelector('form').addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      replaceFormToPoint();
-      document.removeEventListener('keydown', escKeyDownHandler);
+    const pointEditComponent = new EditPointView ({
+      point,
+      offersByTypes,
+      destinations,
+      onFormSubmit: () => {
+        replaceFormToPoint.call(this);
+        document.removeEventListener('keydown', escKeyDownHandler);
+      },
+      onEditCloseClick: () => {
+        replaceFormToPoint.call(this);
+      }
     });
 
-    pointEditComponent.element.querySelector('.event__rollup-btn').addEventListener('click', onPointCloseClick);
+    function replacePoinToForm() {
+      this.#component.element.replaceChild(pointEditComponent.element, pointComponent.element);
+    }
+
+    function replaceFormToPoint() {
+      this.#component.element.replaceChild(pointComponent.element, pointEditComponent.element);
+    }
+
+    // pointEditComponent.element.querySelector('form').addEventListener('submit', (evt) => {
+    //   evt.preventDefault();
+    //   replaceFormToPoint();
+    //   document.removeEventListener('keydown', escKeyDownHandler);
+    // });
+
+    // pointEditComponent.element.querySelector('.event__rollup-btn').addEventListener('click', onPointCloseClick);
 
 
     render(pointComponent, this.#component.element, RenderPosition.BEFOREEND);

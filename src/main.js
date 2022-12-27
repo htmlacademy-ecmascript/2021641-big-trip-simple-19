@@ -1,7 +1,7 @@
 import FilterView from './view/filter-view.js';
-import {render, RenderPosition} from './render.js';
 import ListPresenter from './presenter/list-presenter.js';
 import PointModel from './model/tasks-model.js';
+import {render, RenderPosition} from './framework/render.js';
 
 const siteTripElement = document.querySelector('.trip-events');
 const siteControlsElement = document.querySelector('.trip-controls__filters');

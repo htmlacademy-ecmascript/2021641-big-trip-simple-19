@@ -10,8 +10,4 @@ const dateTimeFrom = (dateFrom) => dateFrom ? dayjs(dateFrom).format(TIME_FORMAT
 const dateTimeTo = (dateTo) => dateTo ? dayjs(dateTo).format(TIME_FORMAT) : '';
 const dayDate = (dateFrom) => dateFrom ? dayjs(dateFrom).format(DAY_FORMAT) : '';
 
-function getRandomArrayElement(items) {
-  return items[Math.floor(Math.random() * items.length)];
-}
-
-export {getRandomArrayElement, fullDateFrom, fullDateTo, dateTimeFrom, dateTimeTo,dayDate};
+export {fullDateFrom, fullDateTo, dateTimeFrom, dateTimeTo,dayDate};

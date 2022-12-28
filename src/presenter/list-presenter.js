@@ -20,17 +20,11 @@ export default class ListPresenter {
   }
 
   init() {
-    this.#listPoint = [...this.#pointModel.tasks];
+    this.#listPoint = [...this.#pointModel.pointOffers];
     this.#renderList();
   }
 
   #renderPoint(point) {
-
-    // const onPointCloseClick = (evt) => {
-    //   evt.preventDefault();
-    //   replaceFormToPoint();
-    // };
-
     const escKeyDownHandler = (evt) => {
       if(evt.key === 'Escape' || evt.key === 'Esc') {
         evt.preventDefault();
@@ -69,15 +63,6 @@ export default class ListPresenter {
     function replaceFormToPoint() {
       this.#component.element.replaceChild(pointComponent.element, pointEditComponent.element);
     }
-
-    // pointEditComponent.element.querySelector('form').addEventListener('submit', (evt) => {
-    //   evt.preventDefault();
-    //   replaceFormToPoint();
-    //   document.removeEventListener('keydown', escKeyDownHandler);
-    // });
-
-    // pointEditComponent.element.querySelector('.event__rollup-btn').addEventListener('click', onPointCloseClick);
-
 
     render(pointComponent, this.#component.element, RenderPosition.BEFOREEND);
   }

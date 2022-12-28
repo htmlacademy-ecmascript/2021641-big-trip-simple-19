@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import {dayDate, dateTimeFrom, dateTimeTo} from '../utils/task.js';
+import {dayDate, dateTimeFrom, dateTimeTo, fullDateFrom, fullDateTo} from '../utils/task.js';
 
 const creatSelectOffersTemplate = (offers, pointTypeOffers) =>
   pointTypeOffers.offers.map((offer) =>
@@ -15,6 +15,8 @@ const createEventTemplate = (point, offersByTypes, destinations) => {
   const pointTimeFrom = dateTimeFrom(dateFrom);
   const pointTimeTo = dateTimeTo(dateTo);
   const pointDayDate = dayDate(dateFrom);
+  const pointDataTimeFrom = fullDateFrom(dateFrom);
+  const pointDataTimeTo = fullDateTo(dateTo);
   const pointTypeOffers = offersByTypes.find((offer) => offer.type === point.type);
   const selectOffersTemplate = creatSelectOffersTemplate(offers, pointTypeOffers);
   const pointDestination = destinations.find((direction) => direction.id === destination);
@@ -22,16 +24,16 @@ const createEventTemplate = (point, offersByTypes, destinations) => {
   return (
     `<li class="trip-events__item">
       <div class="event">
-        <time class="event__date" datetime="2019-03-18">${pointDayDate}</time>
+        <time class="event__date" datetime="${pointDayDate}">${pointDayDate}</time>
         <div class="event__type">
           <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
         </div>
         <h3 class="event__title">${`${type } ${ pointDestination.name}`}</h3>
         <div class="event__schedule">
           <p class="event__time">
-            <time class="event__start-time" datetime="2019-03-18T10:30">${pointTimeFrom}</time>
+            <time class="event__start-time" datetime="${pointDataTimeFrom}">${pointTimeFrom}</time>
             &mdash;
-            <time class="event__end-time" datetime="2019-03-18T11:00">${pointTimeTo}</time>
+            <time class="event__end-time" datetime="${pointDataTimeTo}">${pointTimeTo}</time>
           </p>
         </div>
         <p class="event__price">

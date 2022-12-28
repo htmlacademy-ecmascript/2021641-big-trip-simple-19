@@ -51,39 +51,39 @@ const createNewPointTemplate = (point, offersByTypes, destinations) => {
                   <legend class="visually-hidden">Event type</legend>
                   <div class="event__type-item">
                     <input id="event-type-taxi-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="taxi">
-                    <label class="event__type-label  event__type-label--taxi" for="event-type-taxi-1">Taxi</label>
+                    <label class="event__type-label  event__type-label--taxi" for="event-type-taxi-${point.id}">Taxi</label>
                   </div>
                   <div class="event__type-item">
                     <input id="event-type-bus-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="bus">
-                    <label class="event__type-label  event__type-label--bus" for="event-type-bus-1">Bus</label>
+                    <label class="event__type-label  event__type-label--bus" for="event-type-bus-${point.id}">Bus</label>
                   </div>
                   <div class="event__type-item">
                     <input id="event-type-train-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="train">
-                    <label class="event__type-label  event__type-label--train" for="event-type-train-1">Train</label>
+                    <label class="event__type-label  event__type-label--train" for="event-type-train-${point.id}">Train</label>
                   </div>
                   <div class="event__type-item">
                     <input id="event-type-ship-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="ship">
-                    <label class="event__type-label  event__type-label--ship" for="event-type-ship-1">Ship</label>
+                    <label class="event__type-label  event__type-label--ship" for="event-type-ship-${point.id}">Ship</label>
                   </div>
                   <div class="event__type-item">
                     <input id="event-type-drive-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="drive">
-                    <label class="event__type-label  event__type-label--drive" for="event-type-drive-1">Drive</label>
+                    <label class="event__type-label  event__type-label--drive" for="event-type-drive-${point.id}">Drive</label>
                   </div>
                   <div class="event__type-item">
                     <input id="event-type-flight-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="flight" checked>
-                    <label class="event__type-label  event__type-label--flight" for="event-type-flight-1">Flight</label>
+                    <label class="event__type-label  event__type-label--flight" for="event-type-flight-${point.id}">Flight</label>
                   </div>
                   <div class="event__type-item">
                     <input id="event-type-check-in-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="check-in">
-                    <label class="event__type-label  event__type-label--check-in" for="event-type-check-in-1">Check-in</label>
+                    <label class="event__type-label  event__type-label--check-in" for="event-type-check-in-${point.id}">Check-in</label>
                   </div>
                   <div class="event__type-item">
                     <input id="event-type-sightseeing-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="sightseeing">
-                    <label class="event__type-label  event__type-label--sightseeing" for="event-type-sightseeing-1">Sightseeing</label>
+                    <label class="event__type-label  event__type-label--sightseeing" for="event-type-sightseeing-${point.id}">Sightseeing</label>
                   </div>
                   <div class="event__type-item">
                     <input id="event-type-restaurant-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="restaurant">
-                    <label class="event__type-label  event__type-label--restaurant" for="event-type-restaurant-1">Restaurant</label>
+                    <label class="event__type-label  event__type-label--restaurant" for="event-type-restaurant-${point.id}">Restaurant</label>
                   </div>
                 </fieldset>
               </div>

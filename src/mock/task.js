@@ -58,7 +58,13 @@ const destinations = [
         description: 'Chamonix parliament building'
       }
     ]
-  }
+  },
+  {
+    id: 4,
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    name: 'Amsterdam',
+    pictures: []
+  },
 ];
 
 const offersByTypes = [
@@ -284,41 +290,11 @@ const offersByTypes = [
   }
 ];
 
-// const mockPoints = [
-//   {
-//     basePrice: 1100,
-//     dateFrom: '2019-07-10T22:55:56.845Z',
-//     dateTo: '2019-07-11T11:22:13.375Z',
-//     destination: 1,
-//     id: 1,
-//     offers: [1,2],
-//     type: getRandomArrayElement(POINTS)
-//   },
-//   {
-//     basePrice: 500,
-//     dateFrom: '2019-07-10T22:55:56.845Z',
-//     dateTo: '2019-07-11T11:22:13.375Z',
-//     destination: 2,
-//     id: 2,
-//     offers: [2,3],
-//     type: getRandomArrayElement(POINTS)
-//   },
-//   {
-//     basePrice: 222,
-//     dateFrom: '2019-07-10T22:55:56.845Z',
-//     dateTo: '2019-07-11T11:22:13.375Z',
-//     destination: 3,
-//     id: 3,
-//     offers: [3,4],
-//     type: getRandomArrayElement(POINTS)
-//   },
-// ];
-
 const mockPoints = [
   {
     basePrice: 1100,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z',
+    dateFrom: '2023-07-10T22:55:56.845Z',
+    dateTo: '2023-08-11T11:22:13.375Z',
     destination: 1,
     id: 1,
     offers: [1, 2],
@@ -326,8 +302,8 @@ const mockPoints = [
   },
   {
     basePrice: 500,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z',
+    dateFrom: '2023-06-12T22:55:56.845Z',
+    dateTo: '2023-07-15T11:22:13.375Z',
     destination: 1,
     id: 2,
     offers: [1, 2],
@@ -335,8 +311,8 @@ const mockPoints = [
   },
   {
     basePrice: 800,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z',
+    dateFrom: '2023-05-14T22:55:56.845Z',
+    dateTo: '2023-06-17T11:22:13.375Z',
     destination: 1,
     id: 3,
     offers: [2, 3, 4],
@@ -344,8 +320,8 @@ const mockPoints = [
   },
   {
     basePrice: 2100,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z',
+    dateFrom: '2023-09-10T22:55:56.845Z',
+    dateTo: '2023-10-13T11:22:13.375Z',
     destination: 2,
     id: 4,
     offers: [2, 3],
@@ -353,8 +329,8 @@ const mockPoints = [
   },
   {
     basePrice: 100,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z',
+    dateFrom: '2023-02-15T22:55:56.845Z',
+    dateTo: '2023-03-11T11:22:13.375Z',
     destination: 2,
     id: 5,
     offers: [1],
@@ -362,8 +338,8 @@ const mockPoints = [
   },
   {
     basePrice: 5000,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z',
+    dateFrom: '2023-01-12T22:55:56.845Z',
+    dateTo: '2023-02-17T11:22:13.375Z',
     destination: 2,
     id: 6,
     offers: [1, 2, 4],
@@ -371,8 +347,8 @@ const mockPoints = [
   },
   {
     basePrice: 2500,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z',
+    dateFrom: '2023-03-10T22:55:56.845Z',
+    dateTo: '2023-03-13T11:22:13.375Z',
     destination: 3,
     id: 7,
     offers: [1, 3],
@@ -380,8 +356,8 @@ const mockPoints = [
   },
   {
     basePrice: 8000,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z',
+    dateFrom: '2023-09-13T22:55:56.845Z',
+    dateTo: '2023-10-12T11:22:13.375Z',
     destination: 3,
     id: 8,
     offers: [3, 4],
@@ -389,8 +365,8 @@ const mockPoints = [
   },
   {
     basePrice: 300,
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z',
+    dateFrom: '2023-05-12T22:55:56.845Z',
+    dateTo: '2023-06-10T11:22:13.375Z',
     destination: 3,
     id: 9,
     offers: [2, 4],

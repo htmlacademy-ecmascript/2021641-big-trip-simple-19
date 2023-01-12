@@ -1,14 +1,22 @@
 import AbstractView from '../framework/view/abstract-view.js';
 
-function creatFilterTemplate() {
+function creatFilterTemplate(point) {
+  const dateNow = Date.now();
+
+  function disabledFilter (element) {
+    const date = new Date(element.dateTo);
+    const disabledDate = dateNow > date.getTime() ? 'disabled' : '';
+
+    return disabledDate <= dateNow;
+  }
   return (`<form class="trip-filters" action="#" method="get">
   <div class="trip-filters__filter">
-    <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything">
+    <input id="filter-everything" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="everything" checked>
     <label class="trip-filters__filter-label" for="filter-everything">Everything</label>
   </div>
 
   <div class="trip-filters__filter">
-    <input id="filter-future" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="future">
+    <input id="filter-future" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value="future" ${point.every(disabledFilter) ? 'disabled' : ''}>
     <label class="trip-filters__filter-label" for="filter-future">Future</label>
   </div>
 
@@ -17,7 +25,14 @@ function creatFilterTemplate() {
 }
 
 export default class FilterView extends AbstractView {
+  #points = null;
+
+  constructor({points}) {
+    super();
+    this.#points = points;
+  }
+
   get template() {
-    return creatFilterTemplate();
+    return creatFilterTemplate(this.#points);
   }
 }

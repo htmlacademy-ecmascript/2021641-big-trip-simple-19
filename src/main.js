@@ -8,6 +8,6 @@ const siteControlsElement = document.querySelector('.trip-controls__filters');
 const pointModel = new PointModel();
 const listPresenter = new ListPresenter({container: siteTripElement, pointModel});
 
-render(new FilterView(), siteControlsElement, RenderPosition.BEFOREEND);
+render(new FilterView({points: pointModel.point}), siteControlsElement, RenderPosition.BEFOREEND);
 
 listPresenter.init();

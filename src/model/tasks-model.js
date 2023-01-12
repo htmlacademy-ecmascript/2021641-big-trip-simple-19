@@ -1,25 +1,21 @@
-import {getRandomTask} from '../mock/task.js';
+import {getRandomTask, offersByTypes, destinations} from '../mock/task.js';
 
-const TASK_COUNT = 3;
+const TASK_COUNT = 8;
 
 export default class PointModel {
   #points = Array.from({length: TASK_COUNT}, getRandomTask);
-  #offerByTypes = Array.from({length: TASK_COUNT}, getRandomTask);
-  #destinations = Array.from({length: TASK_COUNT}, getRandomTask);
+  #destinations = destinations;
+  #offersByType = offersByTypes;
 
-  get pointOffers() {
-    return this.#points.map((point, destination) => {
-      const typeOffers = this.#offerByTypes.find((offer) => offer.type === point.type);
-      console.log(point);
-      const pointOffers = [];
-      const typeDestination = this.#destinations.find((dest) => dest.type === destination.type);
-      const pointDestinations = [];
-
+  get point() {
+    return this.#points.map((point) => {
+      const typeOffer = this.#offersByType.find((offer) => offer.type === point.type);
       return {
-        typeOffers,
-        pointOffers,
-        typeDestination,
-        pointDestinations
+        ...point,
+        destination: this.#destinations.find((direction) => direction.id === point.destination),
+        typeOffer,
+        offersByTypes,
+        destinations,
       };
     });
   }

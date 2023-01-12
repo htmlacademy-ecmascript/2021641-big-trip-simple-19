@@ -20,7 +20,7 @@ export default class ListPresenter {
   }
 
   init() {
-    this.#listPoint = [...this.#pointModel.pointOffers];
+    this.#listPoint = [...this.#pointModel.point];
     this.#renderList();
   }
 

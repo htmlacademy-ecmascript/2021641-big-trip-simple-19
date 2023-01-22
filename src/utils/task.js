@@ -15,4 +15,8 @@ const humanizeDateTimeFrom = (dateFrom) => dateFrom ? dayjs(dateFrom).format(HUM
 const humanizeDateTimeTo = (dateTo) => dateTo ? dayjs(dateTo).format(HUMANIZE_TIME_FORMAT) : '';
 const humanizeDayDate = (dateFrom) => dateFrom ? dayjs(dateFrom).format(HUMANIZE_DAY_FORMAT) : '';
 
-export {fullDateFrom, fullDateTo, dateTimeFrom, dateTimeTo, dayDate, humanizeDateTimeFrom, humanizeDateTimeTo, humanizeDayDate};
+const sortPointDay = (pointA, pointB) => dayjs(pointA.dataFrom).diff(dayjs(pointB.dataFrom));
+
+const sortPointPrice = (pointA, pointB) => pointB.basePrice - pointA.basePrice;
+
+export {fullDateFrom, fullDateTo, dateTimeFrom, dateTimeTo, dayDate, humanizeDateTimeFrom, humanizeDateTimeTo, humanizeDayDate, sortPointDay, sortPointPrice};

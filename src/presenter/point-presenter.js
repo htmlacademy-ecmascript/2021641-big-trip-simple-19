@@ -1,4 +1,4 @@
-import {render, replace, remove} from '../framework/render.js';
+import {render, replace, remove, RenderPosition} from '../framework/render.js';
 import EditPointView from '../view/edit-point-view.js';
 import EventView from '../view/event-view.js';
 
@@ -39,7 +39,7 @@ export default class PointPresenter {
     });
 
     if(prevPointComponent === null || prevPointEditComponent === null) {
-      render(this.#pointComponent, this.#pointContainer);
+      render(this.#pointComponent, this.#pointContainer, RenderPosition.BEFOREEND);
       return;
     }
 

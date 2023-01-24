@@ -15,7 +15,7 @@ const humanizeDateTimeFrom = (dateFrom) => dateFrom ? dayjs(dateFrom).format(HUM
 const humanizeDateTimeTo = (dateTo) => dateTo ? dayjs(dateTo).format(HUMANIZE_TIME_FORMAT) : '';
 const humanizeDayDate = (dateFrom) => dateFrom ? dayjs(dateFrom).format(HUMANIZE_DAY_FORMAT) : '';
 
-const sortPointDay = (pointA, pointB) => dayjs(pointA.dataFrom).diff(dayjs(pointB.dataFrom));
+const sortPointDay = (pointA, pointB) => dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom));
 
 const sortPointPrice = (pointA, pointB) => pointB.basePrice - pointA.basePrice;
 

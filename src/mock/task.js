@@ -376,8 +376,8 @@ const mockPoints = [
 
 function getRandomTask() {
   return {
+    ...getRandomArrayElement(mockPoints),
     id: nanoid(),
-    ...getRandomArrayElement(mockPoints)
   };
 }
 

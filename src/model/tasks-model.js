@@ -1,6 +1,6 @@
 import {getRandomTask, offersByTypes, destinations} from '../mock/task.js';
 
-const TASK_COUNT = 8;
+const TASK_COUNT = 6;
 
 export default class PointModel {
   #points = Array.from({length: TASK_COUNT}, getRandomTask);

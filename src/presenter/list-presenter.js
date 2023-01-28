@@ -17,7 +17,6 @@ export default class ListPresenter {
   #noPointComponent = new NoPointView();
   #pointPresenters = new Map();
   #currentSortType = SortType.DAY;
-  // #sourceListPoint = [];
 
   constructor({container, pointModel}) {
     this.#container = container;
@@ -26,8 +25,7 @@ export default class ListPresenter {
 
   init() {
     this.#listPoints = [...this.#pointModel.point];
-    this.#listPoints.sort(sortPointDay, sortPointPrice);
-    // this.#sourceListPoint = [...this.#pointModel.point];
+    this.#listPoints.sort(sortPointDay);
     this.#renderList();
     this.#renderSort();
   }
@@ -38,12 +36,10 @@ export default class ListPresenter {
 
   #handlePointChange = (updatePoint) => {
     this.#listPoints = updateItem(this.#listPoints, updatePoint);
-    // this.#sourceListPoint = updateItem(this.#sourceListPoint, updatePoint);
     this.#pointPresenters.get(updatePoint.id).init(updatePoint);
   };
 
   #sortPoints(sortType) {
-    // console.log(sortType);
     switch (sortType) {
       case SortType.DAY:
         this.#listPoints.sort(sortPointDay);
@@ -51,8 +47,6 @@ export default class ListPresenter {
       case SortType.PRICE:
         this.#listPoints.sort(sortPointPrice);
         break;
-      // default:
-      //   this.#listPoints = [...this.#sourceListPoint];
     }
 
     this.#currentSortType = sortType;

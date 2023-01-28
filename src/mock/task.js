@@ -293,28 +293,25 @@ const offersByTypes = [
 const mockPoints = [
   {
     basePrice: 1100,
-    dateFrom: '2023-07-10T22:55:56.845Z',
-    dateTo: '2023-08-11T11:22:13.375Z',
+    dateFrom: '2019-07-10T22:55:56.845Z',
+    dateTo: '2019-08-11T11:22:13.375Z',
     destination: 1,
-    id: 1,
     offers: [1, 2],
     type: 'taxi'
   },
   {
     basePrice: 500,
-    dateFrom: '2023-06-12T15:55:56.845Z',
-    dateTo: '2023-07-15T16:22:13.375Z',
+    dateFrom: '2022-06-12T15:55:56.845Z',
+    dateTo: '2022-07-15T16:22:13.375Z',
     destination: 1,
-    id: 2,
-    offers: [1, 2],
+    offers: [1, 3],
     type: 'bus'
   },
   {
     basePrice: 800,
-    dateFrom: '2023-05-14T12:55:56.845Z',
-    dateTo: '2023-06-17T13:22:13.375Z',
+    dateFrom: '2021-05-14T12:55:56.845Z',
+    dateTo: '2021-06-17T13:22:13.375Z',
     destination: 1,
-    id: 3,
     offers: [2, 3, 4],
     type: 'train'
   },
@@ -323,52 +320,46 @@ const mockPoints = [
     dateFrom: '2023-09-10T14:55:56.845Z',
     dateTo: '2023-10-13T17:22:13.375Z',
     destination: 2,
-    id: 4,
     offers: [2, 3],
     type: 'ship'
   },
   {
     basePrice: 100,
-    dateFrom: '2023-02-15T18:55:56.845Z',
-    dateTo: '2023-03-11T13:22:13.375Z',
+    dateFrom: '2020-02-15T18:55:56.845Z',
+    dateTo: '2020-03-11T13:22:13.375Z',
     destination: 2,
-    id: 5,
     offers: [1],
     type: 'drive'
   },
   {
     basePrice: 5000,
-    dateFrom: '2023-01-12T19:55:56.845Z',
-    dateTo: '2023-02-17T11:22:13.375Z',
+    dateFrom: '2020-01-12T19:55:56.845Z',
+    dateTo: '2020-02-17T11:22:13.375Z',
     destination: 2,
-    id: 6,
     offers: [1, 2, 4],
     type: 'flight'
   },
   {
     basePrice: 2500,
-    dateFrom: '2023-03-10T20:55:56.845Z',
-    dateTo: '2023-03-13T15:22:13.375Z',
+    dateFrom: '2020-03-10T20:55:56.845Z',
+    dateTo: '2020-03-13T15:22:13.375Z',
     destination: 3,
-    id: 7,
     offers: [1, 3],
     type: 'check-in'
   },
   {
     basePrice: 8000,
-    dateFrom: '2023-09-13T21:55:56.845Z',
-    dateTo: '2023-10-12T17:22:13.375Z',
+    dateFrom: '2020-09-13T21:55:56.845Z',
+    dateTo: '2020-10-12T17:22:13.375Z',
     destination: 3,
-    id: 8,
     offers: [3, 4],
     type: 'sightseeing'
   },
   {
     basePrice: 300,
-    dateFrom: '2023-05-12T16:55:56.845Z',
-    dateTo: '2023-06-10T20:22:13.375Z',
+    dateFrom: '2020-05-12T16:55:56.845Z',
+    dateTo: '2020-06-10T20:22:13.375Z',
     destination: 3,
-    id: 9,
     offers: [2, 4],
     type: 'restaurant'
   }
@@ -376,8 +367,8 @@ const mockPoints = [
 
 function getRandomTask() {
   return {
-    ...getRandomArrayElement(mockPoints),
     id: nanoid(),
+    ...getRandomArrayElement(mockPoints)
   };
 }
 

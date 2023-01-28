@@ -152,6 +152,7 @@ export default class EditPointView extends AbstractStatefulView {
     this.updateElement({
       type : this._state.type,
       typeOffer : typeOffer,
+      offers: []
     });
   };
 
@@ -159,9 +160,11 @@ export default class EditPointView extends AbstractStatefulView {
     const name = evt.target.value;
     const newDestination = this._state.destinations.find((direction) => direction.name === name);
 
-    this.updateElement({
-      destination : newDestination,
-    });
+    if(newDestination) {
+      this.updateElement({
+        destination : newDestination,
+      });
+    }
   };
 
   #formSubmitHandler = (evt) => {

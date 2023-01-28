@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 const DATE_FORMAT = 'DD/MM/YY hh:mm';
 const TIME_FORMAT = 'hh:mm';
-const DAY_FORMAT = 'DD MMMM';
+const DAY_FORMAT = 'DD MMM';
 const HUMANIZE_DAY_FORMAT = 'YYYY-MM-DD';
 const HUMANIZE_TIME_FORMAT = 'YYYY-MM-DDThh:mm';
 

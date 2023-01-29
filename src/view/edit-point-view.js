@@ -1,5 +1,7 @@
 import {fullDateFrom, fullDateTo} from '../utils/task.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
 
 const creatOptionsTemplate = (offers, pointTypeOffers) =>
   pointTypeOffers.offers.map((offer) => {
@@ -114,6 +116,8 @@ const createEditPointTemplate = (point) => {
 export default class EditPointView extends AbstractStatefulView {
   #handleFormSubmit = null;
   #handelEditCloseClick = null;
+  #datepickerStart = null;
+  #datepickerEnd = null;
 
   constructor({point, onFormSubmit, onEditCloseClick}) {
     super();
@@ -126,6 +130,20 @@ export default class EditPointView extends AbstractStatefulView {
 
   get template() {
     return createEditPointTemplate(this._state);
+  }
+
+  removeElement() {
+    super.removeElement();
+
+    if (this.#datepickerStart) {
+      this.#datepickerStart.destroy();
+      this.#datepickerStart = null;
+    }
+
+    if (this.#datepickerEnd) {
+      this.#datepickerEnd.destroy();
+      this.#datepickerEnd = null;
+    }
   }
 
   reset(point) {
@@ -143,6 +161,8 @@ export default class EditPointView extends AbstractStatefulView {
       .addEventListener('change', this.#eventOfferHandler);
     this.element.querySelector('.event__field-group')
       .addEventListener('change', this.#eventDestinationHandler);
+    this.#setDatepickerStart();
+    this.#setDatepickerEnd();
   }
 
   #eventOfferHandler = (evt) => {
@@ -176,8 +196,46 @@ export default class EditPointView extends AbstractStatefulView {
     this.#handelEditCloseClick();
   };
 
+  #dateChangeStartHandler = ([userDate]) => {
+    this._setState({
+      dateFrom: userDate
+    });
+  };
+
+  #dateChangeEndHandler = ([userDate]) => {
+    this._setState({
+      dateTo: userDate
+    });
+  };
+
+  #setDatepickerStart() {
+    this.#datepickerStart = flatpickr(
+      this.element.querySelector('[name=event-start-time]'),
+      {
+        dateFormat: 'd/m/y H:i',
+        enableTime: true,
+        time24hr: true,
+        defaultDate: this._state.dateFrom,
+        onChange: this.#dateChangeStartHandler,
+      }
+    );
+  }
+
+  #setDatepickerEnd() {
+    this.#datepickerEnd = flatpickr(
+      this.element.querySelector('[name=event-end-time]'),
+      {
+        dateFormat: 'd/m/y H:i',
+        enableTime: true,
+        time24hr: true,
+        defaultDate: this._state.dateTo,
+        onChange: this.#dateChangeEndHandler,
+      }
+    );
+  }
+
   static parsePointToState(point) {
-    return {...point};
+    return {...point,};
   }
 
   static parseStateToPoint(state) {

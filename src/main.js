@@ -1,13 +1,19 @@
-import FilterView from './view/filter-view.js';
 import ListPresenter from './presenter/list-presenter.js';
-import PointModel from './model/tasks-model.js';
-import {render, RenderPosition} from './framework/render.js';
+import FilterPresenter from './presenter/filter-presenter.js';
+import PointModel from './model/point-model.js';
+import FilterModel from './model/filter-model.js';
 
 const siteTripElement = document.querySelector('.trip-events');
 const siteControlsElement = document.querySelector('.trip-controls__filters');
 const pointModel = new PointModel();
+const filterModel = new FilterModel();
+
 const listPresenter = new ListPresenter({container: siteTripElement, pointModel});
+const filterPresenter = new FilterPresenter({
+  filterContainer: siteControlsElement,
+  filterModel,
+  pointModel
+});
 
-render(new FilterView({points: pointModel.point}), siteControlsElement, RenderPosition.BEFOREEND);
-
+filterPresenter.init();
 listPresenter.init();

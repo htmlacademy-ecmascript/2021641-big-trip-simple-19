@@ -1,9 +1,12 @@
+import {FilterType} from '../const.js';
+
 function getRandomArrayElement(items) {
   return items[Math.floor(Math.random() * items.length)];
 }
 
-function updateItem(items, update) {
-  return items.map((item) => item.id === update.id ? update : item);
-}
+const filter = {
+  [FilterType.EVERYTHING]: (points) => points,
+  [FilterType.FUTURE]: (points) => points.filter((point) => Date.now() <= new Date(point.dateTo).getTime()),
+};
 
-export {getRandomArrayElement, updateItem};
+export {getRandomArrayElement, filter};

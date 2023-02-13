@@ -19,4 +19,11 @@ const sortPointDay = (pointA, pointB) => dayjs(pointA.dateFrom).diff(dayjs(point
 
 const sortPointPrice = (pointA, pointB) => pointB.basePrice - pointA.basePrice;
 
-export {fullDateFrom, fullDateTo, dateTimeFrom, dateTimeTo, dayDate, humanizeDateTimeFrom, humanizeDateTimeTo, humanizeDayDate, sortPointDay, sortPointPrice};
+const firstLetterUp = (item) => {
+  if (!item) {
+    return item;
+  }
+  return item[0].toUpperCase() + item.slice(1);
+};
+
+export {fullDateFrom, fullDateTo, dateTimeFrom, dateTimeTo, dayDate, humanizeDateTimeFrom, humanizeDateTimeTo, humanizeDayDate, sortPointDay, sortPointPrice, firstLetterUp};

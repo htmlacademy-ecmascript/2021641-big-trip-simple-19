@@ -62,7 +62,7 @@ const destinations = [
   {
     id: 4,
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    name: 'Amsterdam',
+    name: 'Paris',
     pictures: []
   },
 ];

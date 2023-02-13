@@ -2,6 +2,7 @@ import {remove, render, RenderPosition} from '../framework/render.js';
 import ListView from '../view/list-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointView from '../view/no-point-view.js';
+import NewPointPresenter from '../presenter/new-point-presenter.js';
 import PointPresenter from '../presenter/point-presenter.js';
 import {SortType, UserAction, UpdateType, FilterType} from '../const.js';
 import {sortPointDay, sortPointPrice} from '../utils/task.js';
@@ -15,20 +16,27 @@ export default class ListPresenter {
   #sortComponent = null;
   #noPointComponent = null;
   #pointPresenters = new Map();
+  #newPointPresenters = null;
   #currentSortType = SortType.DAY;
   #filterType = FilterType.EVERYTHING;
 
-  constructor({container, pointModel, filterModel}) {
+  constructor({container, pointModel, filterModel, onNewPointDestroy}) {
     this.#container = container;
     this.#pointModel = pointModel;
     this.#filterModel = filterModel;
 
+    this.#newPointPresenters = new NewPointPresenter({
+      pointListContainer: this.#component.element,
+      onDataChange: this.#handleViewAction,
+      onDestroy: onNewPointDestroy
+    });
+
     this.#pointModel.addObserver(this.#handleModelEvent);
-    // this.#filterModel.addObserver(this.#handleModelEvent);
+    this.#filterModel.addObserver(this.#handleModelEvent);
   }
 
   get points() {
-    // this.#filterType = this.#filterModel.filter;
+    this.#filterType = this.#filterModel.filter;
     const points = this.#pointModel.points;
     const filteredPoints = filter[this.#filterType](points);
 
@@ -47,9 +55,10 @@ export default class ListPresenter {
     this.#renderSort();
   }
 
-  creatPoint() {
+  createPoint() {
     this.#currentSortType = SortType.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
+    this.#newPointPresenters.init();
   }
 
   #handleViewAction = (actionType, updateType, update) => {
@@ -83,6 +92,7 @@ export default class ListPresenter {
   };
 
   #handleModeChange = () => {
+    this.#newPointPresenters.destroy();
     this.#pointPresenters.forEach((presenter) => presenter.resetView());
   };
 
@@ -117,13 +127,13 @@ export default class ListPresenter {
   }
 
   #renderPoint(point) {
-    const pointPresenter = new PointPresenter ({
+    const pointPresenters = new PointPresenter ({
       pointContainer: this.#component.element,
       onDataChange: this.#handleViewAction,
       onModeChange: this.#handleModeChange
     });
-    pointPresenter.init(point);
-    this.#pointPresenters.set(point.id, pointPresenter);
+    pointPresenters.init(point);
+    this.#pointPresenters.set(point.id, pointPresenters);
   }
 
   #clearSort() {
@@ -131,6 +141,7 @@ export default class ListPresenter {
   }
 
   #clearList({resetSortType = false, resetFilterType = false} = {}) {
+    this.#newPointPresenters.destroy();
     this.#pointPresenters.forEach((presenter) => presenter.destroy());
     this.#pointPresenters.clear();
 

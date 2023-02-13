@@ -11,12 +11,14 @@ export default class PointModel extends Observable {
   get points() {
     return this.#points.map((point) => {
       const typeOffer = this.#offersByType.find((offer) => offer.type === point.type);
+      const fullDestination = this.#destinations.find((direction) => direction.id === point.destination);
+
       return {
         ...point,
-        destination: this.#destinations.find((direction) => direction.id === point.destination),
         typeOffer,
         offersByTypes,
         destinations,
+        fullDestination
       };
     });
   }

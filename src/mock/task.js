@@ -69,7 +69,7 @@ const destinations = [
 
 const offersByTypes = [
   {
-    type: 'Taxi',
+    type: 'taxi',
     offers: [
       {
         id: 1,
@@ -94,7 +94,7 @@ const offersByTypes = [
     ]
   },
   {
-    type: 'Bus',
+    type: 'bus',
     offers: [
       {
         id: 1,
@@ -119,102 +119,7 @@ const offersByTypes = [
     ]
   },
   {
-    type: 'Train',
-    offers: [
-      {
-        id: 1,
-        title: 'Upgrade to a business class',
-        price: 120
-      },
-      {
-        id: 2,
-        title: 'Add luggage',
-        price: 30
-      },
-      {
-        id: 3,
-        title: 'Switch to comfort class',
-        price: 100
-      },
-      {
-        id: 4,
-        title: 'Choose seats',
-        price: 5
-      }
-    ]
-  },
-  {
-    type: 'Ship',
-    offers: [
-      {
-        id: 1,
-        title: 'Upgrade to a business class',
-        price: 120
-      },
-      {
-        id: 2,
-        title: 'Add luggage',
-        price: 30
-      },
-      {
-        id: 3,
-        title: 'Switch to comfort class',
-        price: 100
-      },
-      {
-        id: 4,
-        title: 'Choose seats',
-        price: 5
-      },
-    ]
-  },
-  {
-    type: 'Drive',
-    offers: [
-      {
-        id: 1,
-        title: 'Upgrade to a business class',
-        price: 120
-      },
-      {
-        id: 2,
-        title: 'Add luggage',
-        price: 30
-      },
-      {
-        id: 3,
-        title: 'Switch to comfort class',
-        price: 100
-      }
-    ]
-  },
-  {
-    type: 'Flight',
-    offers: [
-      {
-        id: 1,
-        title: 'Upgrade to a business class',
-        price: 120
-      },
-      {
-        id: 2,
-        title: 'Add luggage',
-        price: 30
-      },
-      {
-        id: 3,
-        title: 'Switch to comfort class',
-        price: 100
-      },
-      {
-        id: 4,
-        title: 'Choose seats',
-        price: 5
-      },
-    ]
-  },
-  {
-    type: 'Check-in',
+    type: 'train',
     offers: [
       {
         id: 1,
@@ -239,7 +144,102 @@ const offersByTypes = [
     ]
   },
   {
-    type: 'Sightseeing',
+    type: 'ship',
+    offers: [
+      {
+        id: 1,
+        title: 'Upgrade to a business class',
+        price: 120
+      },
+      {
+        id: 2,
+        title: 'Add luggage',
+        price: 30
+      },
+      {
+        id: 3,
+        title: 'Switch to comfort class',
+        price: 100
+      },
+      {
+        id: 4,
+        title: 'Choose seats',
+        price: 5
+      },
+    ]
+  },
+  {
+    type: 'drive',
+    offers: [
+      {
+        id: 1,
+        title: 'Upgrade to a business class',
+        price: 120
+      },
+      {
+        id: 2,
+        title: 'Add luggage',
+        price: 30
+      },
+      {
+        id: 3,
+        title: 'Switch to comfort class',
+        price: 100
+      }
+    ]
+  },
+  {
+    type: 'flight',
+    offers: [
+      {
+        id: 1,
+        title: 'Upgrade to a business class',
+        price: 120
+      },
+      {
+        id: 2,
+        title: 'Add luggage',
+        price: 30
+      },
+      {
+        id: 3,
+        title: 'Switch to comfort class',
+        price: 100
+      },
+      {
+        id: 4,
+        title: 'Choose seats',
+        price: 5
+      },
+    ]
+  },
+  {
+    type: 'check-in',
+    offers: [
+      {
+        id: 1,
+        title: 'Upgrade to a business class',
+        price: 120
+      },
+      {
+        id: 2,
+        title: 'Add luggage',
+        price: 30
+      },
+      {
+        id: 3,
+        title: 'Switch to comfort class',
+        price: 100
+      },
+      {
+        id: 4,
+        title: 'Choose seats',
+        price: 5
+      }
+    ]
+  },
+  {
+    type: 'sightseeing',
     offers: [
       {
         id: 1,
@@ -264,7 +264,7 @@ const offersByTypes = [
     ]
   },
   {
-    type: 'Restaurant',
+    type: 'restaurant',
     offers: [
       {
         id: 1,
@@ -297,7 +297,7 @@ const mockPoints = [
     dateTo: '2019-08-11T11:22:13.375Z',
     destination: 1,
     offers: [1, 2],
-    type: 'Taxi'
+    type: 'taxi'
   },
   {
     basePrice: 500,
@@ -305,7 +305,7 @@ const mockPoints = [
     dateTo: '2022-07-15T16:22:13.375Z',
     destination: 1,
     offers: [1, 3],
-    type: 'Bus'
+    type: 'bus'
   },
   {
     basePrice: 800,
@@ -313,7 +313,7 @@ const mockPoints = [
     dateTo: '2021-06-17T13:22:13.375Z',
     destination: 1,
     offers: [2, 3, 4],
-    type: 'Train'
+    type: 'train'
   },
   {
     basePrice: 2100,
@@ -321,7 +321,7 @@ const mockPoints = [
     dateTo: '2023-10-13T17:22:13.375Z',
     destination: 2,
     offers: [2, 3],
-    type: 'Ship'
+    type: 'ship'
   },
   {
     basePrice: 100,
@@ -329,7 +329,7 @@ const mockPoints = [
     dateTo: '2020-03-11T13:22:13.375Z',
     destination: 2,
     offers: [1],
-    type: 'Drive'
+    type: 'drive'
   },
   {
     basePrice: 5000,
@@ -337,7 +337,7 @@ const mockPoints = [
     dateTo: '2020-02-17T11:22:13.375Z',
     destination: 2,
     offers: [1, 2, 4],
-    type: 'Flight'
+    type: 'flight'
   },
   {
     basePrice: 2500,
@@ -345,7 +345,7 @@ const mockPoints = [
     dateTo: '2020-03-13T15:22:13.375Z',
     destination: 3,
     offers: [1, 3],
-    type: 'Check-in'
+    type: 'check-in'
   },
   {
     basePrice: 8000,
@@ -353,7 +353,7 @@ const mockPoints = [
     dateTo: '2020-10-12T17:22:13.375Z',
     destination: 3,
     offers: [3, 4],
-    type: 'Sightseeing'
+    type: 'sightseeing'
   },
   {
     basePrice: 300,
@@ -361,7 +361,7 @@ const mockPoints = [
     dateTo: '2020-06-10T20:22:13.375Z',
     destination: 3,
     offers: [2, 4],
-    type: 'Restaurant'
+    type: 'restaurant'
   }
 ];
 

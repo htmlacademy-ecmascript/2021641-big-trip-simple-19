@@ -3,14 +3,14 @@ import NewPointView from '../view/new-point-view.js';
 import {UserAction, UpdateType} from '../const.js';
 
 export default class NewPointPresenter {
-  #pointListContainer = null;
+  #container = null;
   #handleDataChange = null;
   #handleDestroy = null;
   #newPointComponent = null;
   #point = null;
 
-  constructor({pointListContainer, onDataChange, onDestroy}) {
-    this.#pointListContainer = pointListContainer;
+  constructor({container, onDataChange, onDestroy}) {
+    this.#container = container;
     this.#handleDataChange = onDataChange;
     this.#handleDestroy = onDestroy;
   }
@@ -27,7 +27,7 @@ export default class NewPointPresenter {
       onDeleteClick: this.#handleDeleteClick,
     });
 
-    render(this.#newPointComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
+    render(this.#newPointComponent, this.#container, RenderPosition.AFTERBEGIN);
 
     document.addEventListener('keydown', this.#escKeyDownHandler);
   }

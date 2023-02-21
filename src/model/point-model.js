@@ -27,7 +27,6 @@ export default class PointModel extends Observable {
       const destination = this.#getDestination(point).destination;
       const offersByTypes = this.#offersByTypes;
       const destinations = this.#destinations;
-      console.log(point);
 
       return {
         ...point,
@@ -39,7 +38,7 @@ export default class PointModel extends Observable {
     });
   }
 
-  get blackPoint() {
+  get blankPoint() {
     const typeOffer = this.#getOfferByTypes(BLANK_POINT).typeOffer;
     const destination = this.#getDestination(BLANK_POINT).destination;
     const offersByTypes = this.#offersByTypes;

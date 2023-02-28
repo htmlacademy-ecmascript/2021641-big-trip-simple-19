@@ -4,13 +4,13 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import he from 'he';
 
-const createSectionOffersTemplate = (offers, typeOffer, type) => {
+const createSectionOffersTemplate = (offers, typeOffer, type, isDisabled) => {
   const creatOptionsTemplate = () =>
     typeOffer.offers.map((offer) => {
       const checked = offers.includes(offer.id) ? 'checked' : '';
       return (
         `<div class="event__offer-selector">
-        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-${offer.id}" type="checkbox" name="event-offer-${type}" data-offer-id="${offer.id}" ${checked}>
+        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-${offer.id}" type="checkbox" name="event-offer-${type}" data-offer-id="${offer.id}" ${checked} ${isDisabled ? 'disabled' : ''}>
         <label class="event__offer-label" for="event-offer-${type}-${offer.id}">
           <span class="event__offer-title">${offer.title}</span>
           &plus;&euro;&nbsp;
@@ -65,23 +65,23 @@ const createDestinationNameTemplate = (destinations) =>
     ` <option value="${he.encode(destination.name)}"></option>`
   ).join('');
 
-const createEventTypeItemTemplate = (offersByTypes, type, ID) =>
+const createEventTypeItemTemplate = (offersByTypes, type, ID, isDisabled) =>
   offersByTypes.map((offer) => {
     const checkedType = offer.type.includes(type) ? 'checked' : '';
     return (
       `<div class="event__type-item">
-      <input id="event-type-${offer.type}-${ID}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${he.encode(offer.type)}" ${checkedType}>
+      <input id="event-type-${offer.type}-${ID}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${he.encode(offer.type)}" ${checkedType} ${isDisabled ? 'disabled' : ''}>
       <label class="event__type-label  event__type-label--${offer.type}" for="event-type-${offer.type}-${ID}">${firstLetterUp(offer.type)}</label>
     </div>`);
   }).join('');
 
 const createNewPointTemplate = (point) => {
-  const {basePrice, dateFrom, dateTo, destination, type, offers, offersByTypes, typeOffer, destinations} = point;
+  const {basePrice, dateFrom, dateTo, destination, type, offers, offersByTypes, typeOffer, destinations, isDisabled, isSaving} = point;
   const ID = 1;
   const pointDateTo = fullDateTo(dateTo);
   const pointDateFrom = fullDateFrom(dateFrom);
-  const createSectionTemplate = createSectionOffersTemplate(offers, typeOffer, type);
-  const eventTypeItemTemplate = createEventTypeItemTemplate(offersByTypes, type, ID);
+  const createSectionTemplate = createSectionOffersTemplate(offers, typeOffer, type, isDisabled);
+  const eventTypeItemTemplate = createEventTypeItemTemplate(offersByTypes, type, ID, isDisabled);
   const destinationNameTemplate = createDestinationNameTemplate(destinations);
   const sectionDestinationTemplate = createSectionDestinationTemplate(destination);
 
@@ -106,27 +106,27 @@ const createNewPointTemplate = (point) => {
               <label class="event__label  event__type-output" for="event-destination-1">
                 ${type}
               </label>
-              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${he.encode(destination ? destination.name : '')}" list="destination-list-${ID}">
+              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${he.encode(destination ? destination.name : '')}" list="destination-list-${ID}" ${isDisabled ? 'disabled' : ''}>
               <datalist id="destination-list-${ID}">
                 ${destinationNameTemplate}
               </datalist>
             </div>
             <div class="event__field-group  event__field-group--time">
               <label class="visually-hidden" for="event-start-time-1">From</label>
-              <input class="event__input  event__input--time" id="event-start-time-${ID}" type="text" name="event-start-time" value="${he.encode(pointDateFrom)}">
+              <input class="event__input  event__input--time" id="event-start-time-${ID}" type="text" name="event-start-time" value="${he.encode(pointDateFrom)}" ${isDisabled ? 'disabled' : ''}>
               &mdash;
               <label class="visually-hidden" for="event-end-time-1">To</label>
-              <input class="event__input  event__input--time" id="event-end-time-${ID}" type="text" name="event-end-time" value="${he.encode(pointDateTo)}">
+              <input class="event__input  event__input--time" id="event-end-time-${ID}" type="text" name="event-end-time" value="${he.encode(pointDateTo)}" ${isDisabled ? 'disabled' : ''}>
             </div>
             <div class="event__field-group  event__field-group--price">
               <label class="event__label" for="event-price-${ID}">
                 <span class="visually-hidden">Price</span>
                 &euro;
               </label>
-              <input class="event__input  event__input--price" id="event-price-${ID}" type="text" name="event-price" value="${he.encode(String(basePrice))}">
+              <input class="event__input  event__input--price" id="event-price-${ID}" type="text" name="event-price" value="${he.encode(String(basePrice))}" ${isDisabled ? 'disabled' : ''}>
             </div>
-            <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-            <button class="event__reset-btn" type="reset">Cancel</button>
+            <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}</button>
+            <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>Cancel</button>
           </header>
           <section class="event__details">
               ${createSectionTemplate}
@@ -253,7 +253,7 @@ export default class NewPointView extends AbstractStatefulView {
         dateTo: userDate,
       });
     } else {
-      this._state({dateFrom: userDate});
+      this._setState({dateFrom: userDate});
     }
   };
 
@@ -288,7 +288,11 @@ export default class NewPointView extends AbstractStatefulView {
   }
 
   static parsePointToState(point) {
-    return {...point,};
+    return {...point,
+      isDisabled: false,
+      isSaving: false,
+      isDeleting: false,
+    };
   }
 
   static parseStateToPoint(state) {
@@ -296,6 +300,10 @@ export default class NewPointView extends AbstractStatefulView {
       const point = {...state,
         destination: state.destination.id,
       };
+
+      delete point.isDisabled;
+      delete point.isSaving;
+      delete point.isDeleting;
 
       return point;
     }

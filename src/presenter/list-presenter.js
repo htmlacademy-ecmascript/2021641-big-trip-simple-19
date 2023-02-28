@@ -1,4 +1,5 @@
 import {remove, render, RenderPosition} from '../framework/render.js';
+import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
 import ListView from '../view/list-view.js';
 import SortView from '../view/sort-view.js';
 import NoPointView from '../view/no-point-view.js';
@@ -7,28 +8,46 @@ import PointPresenter from '../presenter/point-presenter.js';
 import {SortType, UserAction, UpdateType, FilterType} from '../const.js';
 import {sortPointDay, sortPointPrice} from '../utils/task.js';
 import {filter} from '../utils/common.js';
+import LoadingView from '../view/loading.js';
+
+const TimeLimit = {
+  LOWER_LIMIT: 350,
+  UPPER_LIMIT: 1000,
+};
 
 export default class ListPresenter {
   #container = null;
   #pointModel = null;
   #filterModel = null;
   #component = new ListView();
+  #loadingComponent = new LoadingView();
   #sortComponent = null;
   #noPointComponent = null;
-  #pointPresenters = new Map();
-  #newPointPresenters = null;
+  #pointPresenter = new Map();
+  #newPointPresenter = null;
   #currentSortType = SortType.DAY;
   #filterType = FilterType.EVERYTHING;
+  #isLoading = true;
+  #isNewEventOpened = false;
+  #uiBlocker = new UiBlocker({
+    lowerLimit: TimeLimit.LOWER_LIMIT,
+    upperLimit: TimeLimit.UPPER_LIMIT
+  });
 
   constructor({container, pointModel, filterModel, onNewPointDestroy}) {
     this.#container = container;
     this.#pointModel = pointModel;
     this.#filterModel = filterModel;
 
-    this.#newPointPresenters = new NewPointPresenter({
+    this.#newPointPresenter = new NewPointPresenter({
       pointListContainer: this.#component.element,
       onDataChange: this.#handleViewAction,
-      onDestroy: onNewPointDestroy
+      onDestroy: () => {
+        onNewPointDestroy();
+        if (this.points.length === 0) {
+          this.#renderList();
+        }
+      }
     });
 
     this.#pointModel.addObserver(this.#handleModelEvent);
@@ -52,33 +71,51 @@ export default class ListPresenter {
 
   init() {
     this.#renderList();
-    this.#renderSort();
+    // this.#renderSort();
   }
 
   createPoint() {
+    this.#isNewEventOpened = true;
     this.#currentSortType = SortType.DAY;
     this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
-    this.#newPointPresenters.init();
+    this.#newPointPresenter.init(this.#pointModel.blankPoint);
   }
 
-  #handleViewAction = (actionType, updateType, update) => {
+  #handleViewAction = async (actionType, updateType, update) => {
+    this.#uiBlocker.block();
     switch (actionType) {
       case UserAction.UPDATE_POINT:
-        this.#pointModel.updatePoint(updateType, update);
+        this.#pointPresenter.get(update.id).setSaving();
+        try {
+          await this.#pointModel.updatePoint(updateType, update);
+        } catch(err) {
+          this.#pointPresenter.get(update.id).setAborting();
+        }
         break;
       case UserAction.ADD_POINT:
-        this.#pointModel.addPoint(updateType, update);
+        this.#newPointPresenter.setSaving();
+        try {
+          await this.#pointModel.addPoint(updateType, update);
+        } catch(err) {
+          this.#newPointPresenter.setAborting();
+        }
         break;
       case UserAction.DELETE_POINT:
-        this.#pointModel.deletePoint(updateType, update);
+        this.#pointPresenter.get(update.id).setDeleting();
+        try {
+          await this.#pointModel.deletePoint(updateType, update);
+        } catch(err) {
+          this.#pointPresenter.get(update.id).setAborting();
+        }
         break;
     }
+    this.#uiBlocker.unblock();
   };
 
   #handleModelEvent = (updateType, data) => {
     switch (updateType) {
       case UpdateType.PATCH:
-        this.#pointPresenters.get(data.id).init(data);
+        this.#pointPresenter.get(data.id).init(data);
         break;
       case UpdateType.MINOR:
         this.#clearList();
@@ -88,12 +125,18 @@ export default class ListPresenter {
         this.#clearList({resetSortType: true, resetFilterType: true});
         this.#renderList();
         break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
+        this.#renderSort();
+        this.#renderList();
+        break;
     }
   };
 
   #handleModeChange = () => {
-    this.#newPointPresenters.destroy();
-    this.#pointPresenters.forEach((presenter) => presenter.resetView());
+    this.#newPointPresenter.destroy();
+    this.#pointPresenter.forEach((presenter) => presenter.resetView());
   };
 
   #handleSortTypeChange = (sortType) => {
@@ -105,6 +148,10 @@ export default class ListPresenter {
     this.#clearList();
     this.#renderList();
   };
+
+  #renderLoading() {
+    render(this.#loadingComponent, this.#component.element, RenderPosition.BEFOREBEGIN);
+  }
 
   #renderSort() {
     this.#sortComponent = new SortView({
@@ -133,7 +180,7 @@ export default class ListPresenter {
       onModeChange: this.#handleModeChange
     });
     pointPresenters.init(point);
-    this.#pointPresenters.set(point.id, pointPresenters);
+    this.#pointPresenter.set(point.id, pointPresenters);
   }
 
   #clearSort() {
@@ -141,9 +188,11 @@ export default class ListPresenter {
   }
 
   #clearList({resetSortType = false, resetFilterType = false} = {}) {
-    this.#newPointPresenters.destroy();
-    this.#pointPresenters.forEach((presenter) => presenter.destroy());
-    this.#pointPresenters.clear();
+    this.#newPointPresenter.destroy();
+    this.#pointPresenter.forEach((presenter) => presenter.destroy());
+    this.#pointPresenter.clear();
+
+    remove(this.#loadingComponent);
 
     if(this.#noPointComponent) {
       remove(this.#noPointComponent);
@@ -166,12 +215,20 @@ export default class ListPresenter {
     const points = this.points;
     const pointCount = points.length;
 
-    if (pointCount === 0) {
+    if (this.#isLoading) {
+      this.#renderLoading();
+      return;
+    }
+
+    if (pointCount === 0 && this.#isNewEventOpened === false) {
+      this.#clearSort();
       this.#renderNoPointComponent();
     }
 
     for (let i = 0; i < pointCount; i++) {
       this.#renderPoint(this.points[i]);
     }
+
+    this.#isNewEventOpened = false;
   }
 }

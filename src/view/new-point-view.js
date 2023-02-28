@@ -2,304 +2,16 @@ import {fullDateFrom, fullDateTo, firstLetterUp} from '../utils/task.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import he from 'he';
 
-const POINT = {
-  basePrice: 0,
-  dateFrom: '2019-07-10T22:55:56.845Z',
-  dateTo: '2019-07-11T11:22:13.375Z',
-  destination: {
-    id: 3,
-    description: 'Geneva. Cras aliquet varius magna, non porta ligula feugiat eget.',
-    name: 'Geneva',
-    pictures: [
-      {
-        src: 'https://loremflickr.com/248/152?random=21',
-        description: 'Chamonix parliament building'
-      },
-      {
-        src: 'https://loremflickr.com/248/152?random=22',
-        description: 'Chamonix parliament building'
-      }
-    ]
-  },
-  destinations: [
-    {
-      id: 1,
-      description: 'Chamonix, is a beautiful city, a true asian pearl, with crowded streets.',
-      name: 'Chamonix',
-      pictures: [
-        {
-          src: 'https://loremflickr.com/248/152?random=1',
-          description: 'Chamonix parliament building'
-        },
-        {
-          src: 'https://loremflickr.com/248/152?random=2',
-          description: 'Chamonix parliament building'
-        },
-        {
-          src: 'https://loremflickr.com/248/152?random=3',
-          description: 'Chamonix parliament building'
-        }
-      ]
-    },
-    {
-      id: 2,
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      name: 'Amsterdam',
-      pictures: [
-        {
-          src: 'https://loremflickr.com/248/152?random=1',
-          description: 'Chamonix parliament building'
-        },
-        {
-          src: 'https://loremflickr.com/248/152?random=2',
-          description: 'Chamonix parliament building'
-        },
-        {
-          src: 'https://loremflickr.com/248/152?random=3',
-          description: 'Chamonix parliament building'
-        },
-        {
-          src: 'https://loremflickr.com/248/152?random=4',
-          description: 'Chamonix parliament building'
-        }
-      ]
-    },
-    {
-      id: 3,
-      description: 'Cras aliquet varius magna, non porta ligula feugiat eget.',
-      name: 'Geneva',
-      pictures: [
-        {
-          src: 'https://loremflickr.com/248/152?random=1',
-          description: 'Chamonix parliament building'
-        },
-        {
-          src: 'https://loremflickr.com/248/152?random=2',
-          description: 'Chamonix parliament building'
-        }
-      ]
-    },
-    {
-      id: 4,
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      name: 'Paris',
-      pictures: []
-    },
-  ],
-  offers: [],
-  offersByTypes: [
-    {
-      type: 'taxi',
-      offers: []
-    },
-    {
-      type: 'bus',
-      offers: [
-        {
-          id: 1,
-          title: 'Upgrade to a business class',
-          price: 120
-        },
-        {
-          id: 2,
-          title: 'Add luggage',
-          price: 30
-        },
-        {
-          id: 3,
-          title: 'Switch to comfort class',
-          price: 100
-        },
-        {
-          id: 4,
-          title: 'Choose seats',
-          price: 5
-        },
-      ]
-    },
-    {
-      type: 'train',
-      offers: [
-        {
-          id: 1,
-          title: 'Upgrade to a business class',
-          price: 120
-        },
-        {
-          id: 2,
-          title: 'Add luggage',
-          price: 30
-        },
-        {
-          id: 3,
-          title: 'Switch to comfort class',
-          price: 100
-        },
-        {
-          id: 4,
-          title: 'Choose seats',
-          price: 5
-        }
-      ]
-    },
-    {
-      type: 'ship',
-      offers: [
-        {
-          id: 1,
-          title: 'Upgrade to a business class',
-          price: 120
-        },
-        {
-          id: 2,
-          title: 'Add luggage',
-          price: 30
-        },
-        {
-          id: 3,
-          title: 'Switch to comfort class',
-          price: 100
-        },
-        {
-          id: 4,
-          title: 'Choose seats',
-          price: 5
-        },
-      ]
-    },
-    {
-      type: 'drive',
-      offers: [
-        {
-          id: 1,
-          title: 'Upgrade to a business class',
-          price: 120
-        },
-        {
-          id: 2,
-          title: 'Add luggage',
-          price: 30
-        },
-        {
-          id: 3,
-          title: 'Switch to comfort class',
-          price: 100
-        }
-      ]
-    },
-    {
-      type: 'flight',
-      offers: [
-        {
-          id: 1,
-          title: 'Upgrade to a business class',
-          price: 120
-        },
-        {
-          id: 2,
-          title: 'Add luggage',
-          price: 30
-        },
-        {
-          id: 3,
-          title: 'Switch to comfort class',
-          price: 100
-        },
-        {
-          id: 4,
-          title: 'Choose seats',
-          price: 5
-        },
-      ]
-    },
-    {
-      type: 'check-in',
-      offers: [
-        {
-          id: 1,
-          title: 'Upgrade to a business class',
-          price: 120
-        },
-        {
-          id: 2,
-          title: 'Add luggage',
-          price: 30
-        },
-        {
-          id: 3,
-          title: 'Switch to comfort class',
-          price: 100
-        },
-        {
-          id: 4,
-          title: 'Choose seats',
-          price: 5
-        }
-      ]
-    },
-    {
-      type: 'sightseeing',
-      offers: [
-        {
-          id: 1,
-          title: 'Upgrade to a business class',
-          price: 120
-        },
-        {
-          id: 2,
-          title: 'Add luggage',
-          price: 30
-        },
-        {
-          id: 3,
-          title: 'Switch to comfort class',
-          price: 100
-        },
-        {
-          id: 4,
-          title: 'Travel by train',
-          price: 40
-        }
-      ]
-    },
-    {
-      type: 'restaurant',
-      offers: [
-        {
-          id: 1,
-          title: 'Upgrade to a business class',
-          price: 120
-        },
-        {
-          id: 2,
-          title: 'Switch to comfort class',
-          price: 100
-        },
-        {
-          id: 3,
-          title: 'Add meal',
-          price: 15
-        },
-        {
-          id: 4,
-          title: 'Choose seats',
-          price: 5
-        }
-      ]
-    }
-  ],
-  type: 'flight'
-};
-
-const createSectionOffersTemplate = (offersByType, typeOffer) => {
-  const creatOptionsTemplate = (offers, pointTypeOffers) =>
-    pointTypeOffers.offers.map((offer) => {
+const createSectionOffersTemplate = (offers, typeOffer, type, isDisabled) => {
+  const creatOptionsTemplate = () =>
+    typeOffer.offers.map((offer) => {
       const checked = offers.includes(offer.id) ? 'checked' : '';
       return (
         `<div class="event__offer-selector">
-        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}" type="checkbox" name="event-offer-luggage" data-offer-id="${offer.id}" ${checked}>
-        <label class="event__offer-label" for="event-offer-${offer.id}">
+        <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-${offer.id}" type="checkbox" name="event-offer-${type}" data-offer-id="${offer.id}" ${checked} ${isDisabled ? 'disabled' : ''}>
+        <label class="event__offer-label" for="event-offer-${type}-${offer.id}">
           <span class="event__offer-title">${offer.title}</span>
           &plus;&euro;&nbsp;
           <span class="event__offer-price">${offer.price}</span>
@@ -307,7 +19,7 @@ const createSectionOffersTemplate = (offersByType, typeOffer) => {
       </div>`);
     }).join('');
 
-  const additionOptionsTemplate = creatOptionsTemplate(offersByType, typeOffer);
+  const additionOptionsTemplate = creatOptionsTemplate(offers, typeOffer);
 
   if (typeOffer.offers.length !== 0) {
     return (
@@ -321,57 +33,68 @@ const createSectionOffersTemplate = (offersByType, typeOffer) => {
     return '';
   }
 };
-// const creatOptionsTemplate = (offers, pointTypeOffers) =>
-//   pointTypeOffers.offers.map((offer) => {
-//     const checked = offers.includes(offer.id) ? 'checked' : '';
-//     return (
-//       `<div class="event__offer-selector">
-//         <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}" type="checkbox" name="event-offer-luggage" ${checked}>
-//         <label class="event__offer-label" for="event-offer-${offer.id}">
-//           <span class="event__offer-title">${offer.title}</span>
-//           &plus;&euro;&nbsp;
-//           <span class="event__offer-price">${offer.price}</span>
-//         </label>
-//       </div>`);
-//   }).join('');
+
+const createSectionDestinationTemplate = (destination) => {
+
+  if (destination) {
+    const createPicturesTemplate = (pictures) =>
+      pictures.map((picture) =>
+        ` <img class="event__photo" src="${picture.src}" alt="${picture.description}">`
+      ).join('');
+
+    const picturesTemplate = createPicturesTemplate(destination.pictures);
+
+    return (
+      `<section class="event__section  event__section--destination">
+    <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+    <p class="event__destination-description">${destination.description}</p>
+    <div class="event__photos-container">
+      <div class="event__photos-tape">
+      ${picturesTemplate}
+      </div>
+    </div>
+    </section>`
+    );
+  } else {
+    return '';
+  }
+};
 
 const createDestinationNameTemplate = (destinations) =>
   destinations.map((destination) =>
-    ` <option value="${destination.name}"></option>`
+    ` <option value="${he.encode(destination.name)}"></option>`
   ).join('');
 
-const createPicturesTemplate = (pictures) => pictures.map((picture) => `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`).join('');
-
-const createEventTypeItemTemplate = (offersByTypes, type, id) =>
+const createEventTypeItemTemplate = (offersByTypes, type, ID, isDisabled) =>
   offersByTypes.map((offer) => {
     const checkedType = offer.type.includes(type) ? 'checked' : '';
     return (
       `<div class="event__type-item">
-      <input id="event-type-${offer.type}-${id}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${offer.type}" ${checkedType}>
-      <label class="event__type-label  event__type-label--${offer.type}" for="event-type-${offer.type}-${id}">${firstLetterUp(offer.type)}</label>
+      <input id="event-type-${offer.type}-${ID}" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${he.encode(offer.type)}" ${checkedType} ${isDisabled ? 'disabled' : ''}>
+      <label class="event__type-label  event__type-label--${offer.type}" for="event-type-${offer.type}-${ID}">${firstLetterUp(offer.type)}</label>
     </div>`);
   }).join('');
 
 const createNewPointTemplate = (point) => {
-  const {basePrice, dateFrom, dateTo, destination, type, offers, offersByTypes, destinations, id} = point;
+  const {basePrice, dateFrom, dateTo, destination, type, offers, offersByTypes, typeOffer, destinations, isDisabled, isSaving} = point;
+  const ID = 1;
   const pointDateTo = fullDateTo(dateTo);
   const pointDateFrom = fullDateFrom(dateFrom);
-  const pointTypeOffers = offersByTypes.find((offer) => offer.type === point.type);
-  const createSectionTemplate = createSectionOffersTemplate(offers, pointTypeOffers);
-  const picturesTemplate = createPicturesTemplate(destination.pictures);
-  const eventTypeItemTemplate = createEventTypeItemTemplate(offersByTypes, type, id);
+  const createSectionTemplate = createSectionOffersTemplate(offers, typeOffer, type, isDisabled);
+  const eventTypeItemTemplate = createEventTypeItemTemplate(offersByTypes, type, ID, isDisabled);
   const destinationNameTemplate = createDestinationNameTemplate(destinations);
+  const sectionDestinationTemplate = createSectionDestinationTemplate(destination);
 
   return (
     `<li class="trip-events__item">
         <form class="event event--edit" action="#" method="post">
           <header class="event__header">
             <div class="event__type-wrapper">
-              <label class="event__type  event__type-btn" for="event-type-toggle-1">
+              <label class="event__type  event__type-btn" for="event-type-toggle-${1}">
                 <span class="visually-hidden">Choose event type</span>
                 <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
               </label>
-              <input class="event__type-toggle  visually-hidden" id="event-type-toggle-${id}" type="checkbox">
+              <input class="event__type-toggle  visually-hidden" id="event-type-toggle-${ID}" type="checkbox">
               <div class="event__type-list">
                 <fieldset class="event__type-group">
                   <legend class="visually-hidden">Event type</legend>
@@ -383,39 +106,31 @@ const createNewPointTemplate = (point) => {
               <label class="event__label  event__type-output" for="event-destination-1">
                 ${type}
               </label>
-              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination.name}" list="destination-list-${id}">
-              <datalist id="destination-list-1">
+              <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${he.encode(destination ? destination.name : '')}" list="destination-list-${ID}" ${isDisabled ? 'disabled' : ''}>
+              <datalist id="destination-list-${ID}">
                 ${destinationNameTemplate}
               </datalist>
             </div>
             <div class="event__field-group  event__field-group--time">
               <label class="visually-hidden" for="event-start-time-1">From</label>
-              <input class="event__input  event__input--time" id="event-start-time-${id}" type="text" name="event-start-time" value="${pointDateFrom}">
+              <input class="event__input  event__input--time" id="event-start-time-${ID}" type="text" name="event-start-time" value="${he.encode(pointDateFrom)}" ${isDisabled ? 'disabled' : ''}>
               &mdash;
               <label class="visually-hidden" for="event-end-time-1">To</label>
-              <input class="event__input  event__input--time" id="event-end-time-${id}" type="text" name="event-end-time" value="${pointDateTo}">
+              <input class="event__input  event__input--time" id="event-end-time-${ID}" type="text" name="event-end-time" value="${he.encode(pointDateTo)}" ${isDisabled ? 'disabled' : ''}>
             </div>
             <div class="event__field-group  event__field-group--price">
-              <label class="event__label" for="event-price-${id}">
+              <label class="event__label" for="event-price-${ID}">
                 <span class="visually-hidden">Price</span>
                 &euro;
               </label>
-              <input class="event__input  event__input--price" id="event-price-${id}" type="text" name="event-price" value="${basePrice}">
+              <input class="event__input  event__input--price" id="event-price-${ID}" type="text" name="event-price" value="${he.encode(String(basePrice))}" ${isDisabled ? 'disabled' : ''}>
             </div>
-            <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-            <button class="event__reset-btn" type="reset">Cancel</button>
+            <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}</button>
+            <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>Cancel</button>
           </header>
           <section class="event__details">
               ${createSectionTemplate}
-            <section class="event__section  event__section--destination">
-              <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-              <p class="event__destination-description">${destination.description}</p>
-              <div class="event__photos-container">
-                <div class="event__photos-tape">
-                ${picturesTemplate}
-                </div>
-              </div>
-            </section>
+              ${sectionDestinationTemplate}
           </section>
         </form>
       </li>`
@@ -428,7 +143,7 @@ export default class NewPointView extends AbstractStatefulView {
   #datepickerStart = null;
   #datepickerEnd = null;
 
-  constructor({point = POINT, onFormSubmit, onDeleteClick}) {
+  constructor({point, onFormSubmit, onDeleteClick}) {
     super();
     this._setState(NewPointView.parsePointToState(point));
     this.#handleFormSubmit = onFormSubmit;
@@ -481,8 +196,7 @@ export default class NewPointView extends AbstractStatefulView {
         }
       }
 
-      this._state.offers = offers;
-      this._setState(this._state.offers);
+      this._setState({offers: offers});
     }
   };
 
@@ -501,21 +215,24 @@ export default class NewPointView extends AbstractStatefulView {
     const newName = evt.target.value;
     const newDestination = this._state.destinations.find((direction) => direction.name === newName);
 
-    if(newDestination) {
+    if(!newDestination) {
       this.updateElement({
-        destination : newDestination,
-      });
+        ...this._state,
+        destination : '',});
+      return;
     }
+
+    this.updateElement({destination : newDestination});
   };
 
   #eventPriceHandler = (evt) => {
+    const prevPrice = this._state.basePrice;
     const newPrice = evt.target.value;
     const REGEX = /^[\D0]+|\D/g;
-    if (newPrice) {
-      if(!REGEX.test(newPrice)) {
-        this._state.basePrice = newPrice;
-        this._setState(this._state.basePrice);
-      }
+    if(!REGEX.test(newPrice)) {
+      this._setState({basePrice: Number(newPrice)});
+    } else {
+      evt.target.value = prevPrice;
     }
   };
 
@@ -530,13 +247,18 @@ export default class NewPointView extends AbstractStatefulView {
   };
 
   #dateChangeStartHandler = ([userDate]) => {
-    this._state.dateFrom = userDate;
-    this._setState(this._state.dateFrom);
+    if (userDate.getTime() > this._state.dateTo.getTime()) {
+      this._setState({
+        dateFrom: userDate,
+        dateTo: userDate,
+      });
+    } else {
+      this._setState({dateFrom: userDate});
+    }
   };
 
   #dateChangeEndHandler = ([userDate]) => {
-    this._state.dateTo = userDate;
-    this._setState(this._state.dateTo);
+    this._setState({dateTo: userDate});
   };
 
   #setDatepickerStart() {
@@ -545,33 +267,45 @@ export default class NewPointView extends AbstractStatefulView {
       {
         dateFormat: 'd/m/y H:i',
         enableTime: true,
-        minDate: 'today',
+        'time_24hr': true,
         onChange: this.#dateChangeStartHandler,
       }
     );
   }
 
-  #setDatepickerEnd(selectedDates) {
+  #setDatepickerEnd() {
     this.#datepickerEnd = flatpickr(
       this.element.querySelector('[name=event-end-time]'),
       {
         dateFormat: 'd/m/y H:i',
         enableTime: true,
-        minDate: selectedDates,
+        'time_24hr': true,
+        minDate: this._state.dateFrom,
+        defaultDate: this._state.dateTo,
         onChange: this.#dateChangeEndHandler,
       }
     );
   }
 
   static parsePointToState(point) {
-    return {...point,};
+    return {...point,
+      isDisabled: false,
+      isSaving: false,
+      isDeleting: false,
+    };
   }
 
   static parseStateToPoint(state) {
-    const point = {...state,
-      destination: state.destination.id,
-    };
+    if (state.destination && state.basePrice) {
+      const point = {...state,
+        destination: state.destination.id,
+      };
 
-    return point;
+      delete point.isDisabled;
+      delete point.isSaving;
+      delete point.isDeleting;
+
+      return point;
+    }
   }
 }

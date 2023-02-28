@@ -1,15 +1,13 @@
 import {remove, render, RenderPosition} from '../framework/render.js';
 import NewPointView from '../view/new-point-view.js';
-import {nanoid} from 'nanoid';
 import {UserAction, UpdateType} from '../const.js';
-import {offersByTypes} from '../mock/task.js';
 
 export default class NewPointPresenter {
   #pointListContainer = null;
   #handleDataChange = null;
   #handleDestroy = null;
-  #pointEditComponent = null;
-  #offersByType = offersByTypes;
+  #newPointComponent = null;
+  #point = null;
 
   constructor({pointListContainer, onDataChange, onDestroy}) {
     this.#pointListContainer = pointListContainer;
@@ -17,42 +15,61 @@ export default class NewPointPresenter {
     this.#handleDestroy = onDestroy;
   }
 
-  init() {
-    if (this.#pointEditComponent !== null) {
+  init(point) {
+    if (this.#newPointComponent !== null) {
       return;
     }
 
-    this.#pointEditComponent = new NewPointView({
+    this.#point = point;
+    this.#newPointComponent = new NewPointView({
+      point: this.#point,
       onFormSubmit: this.#handleFormSubmit,
       onDeleteClick: this.#handleDeleteClick,
     });
 
-    render(this.#pointEditComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
+    render(this.#newPointComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
 
     document.addEventListener('keydown', this.#escKeyDownHandler);
   }
 
   destroy() {
-    if (this.#pointEditComponent === null) {
+    if (this.#newPointComponent === null) {
       return;
     }
 
     this.#handleDestroy();
 
-    remove(this.#pointEditComponent);
-    this.#pointEditComponent = null;
+    remove(this.#newPointComponent);
+    this.#newPointComponent = null;
 
     document.removeEventListener('keydown', this.#escKeyDownHandler);
   }
 
+  setSaving() {
+    this.#newPointComponent.updateElement({
+      isDisabled: true,
+      isSaving: true,
+    });
+  }
+
+  setAborting() {
+    const resetFormState = () => {
+      this.#newPointComponent.updateElement({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    this.#newPointComponent.shake(resetFormState);
+  }
+
   #handleFormSubmit = (point) => {
-    const typeOffer = this.#offersByType.find((offer) => offer.type === point.type);
     this.#handleDataChange(
       UserAction.ADD_POINT,
       UpdateType.MINOR,
-      {id: nanoid(), typeOffer, ...point},
+      point,
     );
-    this.destroy();
   };
 
   #handleDeleteClick = () => {
